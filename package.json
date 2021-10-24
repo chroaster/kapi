@@ -1,0 +1,32 @@
+{
+  "name": "kapi",
+  "version": "1.0.0",
+  "description": "REST API for data gathered by Kimchi App",
+  "main": "app.js",
+  "repository": "git@github.com:chroaster/kapi.git",
+  "author": "chroaster",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "lint": "eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "deploy": "./deploy.sh"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "nodemodules/**/node_modules"
+    ],
+    "delay": "1000"
+  },
+  "devDependencies": {
+    "nodemon": "~2.0.14"
+  },
+  "dependencies": {
+    "body-parser": "~1.19.0",
+    "dotenv": "~10.0.0",
+    "express": "~4.17.1",
+    "mongoose": "~6.0.12"
+  }
+}
