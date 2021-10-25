@@ -6,5 +6,6 @@ module.exports = {
     name   : "KAPI - Kimchi API",
     script : "./app.js",
     watch  : true,
+    restart_delay: 5000,
   }]
 }

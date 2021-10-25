@@ -6,4 +6,4 @@ rsync -truv  --exclude '.env' --exclude 'node_modules' --exclude 'deploy.sh' --d
 echo 'Copying (scp) .env.prod to remote as .env'
 scp .env.prod chroaster@139.162.7.146:/home/chroaster/apps/kapi/.env
 
-echo 'Finished uploading to remote'
+echo Finished uploading to remote at `date +"%I:%M %p"`

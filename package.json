@@ -1,7 +1,7 @@
 {
   "name": "kapi",
   "version": "1.0.0",
-  "description": "REST API for data gathered by Kimchi App",
+  "description": "API for historical cryptocurrency market data",
   "main": "app.js",
   "repository": "git@github.com:chroaster/kapi.git",
   "author": "chroaster",
