@@ -48,6 +48,8 @@ app.get('/', function (req, res) {
       <li><a href="${req.baseUrl}/2021/10/17/20/23">https://kapi.chroaster.com/2021/10/17/20/23</a></li>
       <p>Retrieve data for a one-hour window (UTC)</p>
       <li><a href="${req.baseUrl}/hour/2021/10/17/20/23">https://kapi.chroaster.com/hour/2021/10/17/20/23</a></li>
+      <p>Retrieve all data for an arbitrary time frame (UTC) (limit 500)</p>
+      <li><a href="${req.baseUrl}/from/2021/10/17/20/0/to/2021/10/17/23/0">https://kapi.chroaster.com/from/2021/10/17/20/0/to/2021/10/17/23/0</a></li>
     </body>
   `);
   res.end();
@@ -95,6 +97,36 @@ app.get('/hour/:year/:month/:day/:hour/:minute', async (req, res) => {
       utc: { $gte: startTime.toISOString(), $lt: endTime.toISOString() },
     }
   ).sort({ utc: 1 }).lean();
+
+  res.type('application/json');
+  res.send(queryResponse);
+});
+
+// Retrieve all data for an arbitrary time frame (limit 500)
+app.get('/from/:year1/:month1/:day1/:hour1/:minute1/to/:year2/:month2/:day2/:hour2/:minute2', async (req, res) => {
+
+  const startTime = new Date(
+    Number.parseInt(req.params.year1),
+    Number.parseInt(req.params.month1) - 1,
+    Number.parseInt(req.params.day1),
+    Number.parseInt(req.params.hour1),
+    Number.parseInt(req.params.minute1)
+  );
+  startTime.setHours(startTime.getHours() + Number.parseInt(process.env.SERVER_UTC_OFFSET));
+  const endTime = new Date(
+    Number.parseInt(req.params.year2),
+    Number.parseInt(req.params.month2) - 1,
+    Number.parseInt(req.params.day2),
+    Number.parseInt(req.params.hour2),
+    Number.parseInt(req.params.minute2)
+  );
+  endTime.setHours(endTime.getHours() + Number.parseInt(process.env.SERVER_UTC_OFFSET));
+
+  const queryResponse = await CryptoTicker.find(
+    {
+      utc: { $gte: startTime.toISOString(), $lt: endTime.toISOString() },
+    }
+  ).limit(500).sort({ utc: 1 }).lean();
 
   res.type('application/json');
   res.send(queryResponse);
